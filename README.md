@@ -4,6 +4,20 @@
 <ul>
 <li>users</li>
 <li>book</li>
-<li>loan</li>
+<li>borrowedbook</li>
 <li>review</li>
+<li>genre</li>
 </ul>
+
+```bash
+
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+after creating username and password
+```bash
+python manage.py runserver
+```
+go to the url most probably http://localhost:8000/admin
