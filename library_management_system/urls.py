@@ -1,8 +1,7 @@
-"""
-URL configuration for library_management_system project.
+"""librarymanagement URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,11 +14,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import include
 from django.urls import path
-from django.urls import include, path
+from librarySystem import views
+from django.contrib.auth.views import LoginView,LogoutView
+
+
 
 urlpatterns = [
-    path('', include('librarySystem.urls')),
     path('admin/', admin.site.urls),
-    
+    path('accounts/',include('django.contrib.auth.urls') ),
+    path('', views.home_view),
+
+    path('adminclick', views.adminclick_view),
+    path('studentclick', views.studentclick_view),
+
+
+    path('adminsignup', views.adminsignup_view),
+    path('studentsignup', views.studentsignup_view),
+    path('adminlogin', LoginView.as_view(template_name='librarySystem/adminlogin.html')),
+    path('studentlogin', LoginView.as_view(template_name='librarySystem/studentlogin.html')),
+
+    path('logout', LogoutView.as_view(template_name='librarySystem/index.html')),
+    path('afterlogin', views.afterlogin_view),
+
+    path('addbook', views.addbook_view),
+    path('viewbook', views.viewbook_view),
+    path('issuebook', views.issuebook_view),
+    path('viewissuedbook', views.viewissuedbook_view),
+    path('viewstudent', views.viewstudent_view),
+    path('viewissuedbookbystudent', views.viewissuedbookbystudent),
+
+    path('aboutus', views.aboutus_view),
+    path('contactus', views.contactus_view),
+
 ]
