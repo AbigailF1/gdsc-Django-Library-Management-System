@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'library_management_system.urls'
+AUTH_USER_MODEL ='librarySystem.User'
 
 TEMPLATES = [
     {
