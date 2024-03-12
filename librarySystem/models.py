@@ -33,15 +33,14 @@ class StudentExtra(models.Model):
     
 def get_expiry():
      return datetime.today() + timedelta(days=15)
+ 
 class IssuedBook(models.Model):
-    #moved this in forms.py
-    #enrollment=[(student.enrollment,str(student.get_name)+' ['+str(student.enrollment)+']') for student in StudentExtra.objects.all()]
-     enrollment=models.CharField(max_length=30)
-    #isbn=[(str(book.isbn),book.name+' ['+str(book.isbn)+']') for book in Book.objects.all()]
-     isbn=models.CharField(max_length=30)
-     issuedate=models.DateField(auto_now=True)
-     expirydate=models.DateField(default=get_expiry)
-     def __str__(self):
+    enrollment = models.CharField(max_length=30)
+    book_isbn=models.PositiveIntegerField(null=True)
+    issuedate = models.DateField(auto_now=True)
+    expirydate = models.DateField(default=get_expiry)
+
+    def __str__(self):
         return self.enrollment
 
 
@@ -52,13 +51,16 @@ class Book(models.Model):
         ('comics', 'Comics'),
         ('biography', 'Biographie'),
         ('history', 'History'),
-        ]
-    name=models.CharField(max_length=30)
-    isbn=models.PositiveIntegerField()
-    author=models.CharField(max_length=40)
-    category=models.CharField(max_length=30,choices=catchoice,default='education')
+    ]
+    book_id=models.AutoField(primary_key=True)
+    book_name=models.CharField(max_length=30, null=True)
+    book_isbn=models.PositiveIntegerField(null=True)
+    book_author=models.CharField(max_length=40, null=True)  # Allow null temporarily
+    book_category=models.CharField(max_length=30, choices=catchoice, default='education')
+    
     def __str__(self):
-        return str(self.name)+"["+str(self.isbn)+']'
+        return str(self.book_name)+"["+str(self.book_isbn)+']'
+
 
 class BorrowedBook(models.Model):
     borrowed_id = models.AutoField(primary_key=True)

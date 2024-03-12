@@ -43,9 +43,9 @@ urlpatterns = [
     path('issuebook', views.issuebook_view),
     path('viewissuedbook', views.viewissuedbook_view),
     path('viewstudent', views.viewstudent_view),
-    path('viewissuedbookbystudent', views.viewissuedbookbystudent),
+    path('viewissuedbookbystudent/', views.viewissuedbookbystudent),
 
-    path('aboutus', views.aboutus_view),
+    path('aboutus/', views.aboutus_view),
     path('contactus', views.contactus_view),
 
 ]

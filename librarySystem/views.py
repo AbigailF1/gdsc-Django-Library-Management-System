@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.core.mail import send_mail
-#from librarymanagement.settings import EMAIL_HOST_USER
+from library_management_system.settings import EMAIL_HOST_USER
 
 
 def home_view(request):
@@ -63,7 +63,7 @@ def studentsignup_view(request):
             user.save()
             f2=form2.save(commit=False)
             f2.user=user
-            user2=f2.save()
+            user=f2.save()
 
             my_student_group = Group.objects.get_or_create(name='STUDENT')
             my_student_group[0].user_set.add(user)
@@ -116,10 +116,11 @@ def issuebook_view(request):
         if form.is_valid():
             obj=models.IssuedBook()
             obj.enrollment=request.POST.get('enrollment2')
-            obj.isbn=request.POST.get('isbn2')
+            obj.isbn=request.POST.get('isbn2')  # This line might be causing the issue
             obj.save()
             return render(request,'librarySystem/bookissued.html')
     return render(request,'librarySystem/issuebook.html',{'form':form})
+
 
 
 @login_required(login_url='adminlogin')
@@ -159,31 +160,36 @@ def viewstudent_view(request):
 
 @login_required(login_url='studentlogin')
 def viewissuedbookbystudent(request):
-    student=models.StudentExtra.objects.filter(user_id=request.user.id)
-    issuedbook=models.IssuedBook.objects.filter(enrollment=student[0].enrollment)
+    student_queryset = models.StudentExtra.objects.filter(user_id=request.user.id)
+    
+    # Check if the student exists
+    if student_queryset.exists():
+        student = student_queryset.first()
+        issued_books = models.IssuedBook.objects.filter(enrollment=student.enrollment)
 
-    li1=[]
+        li1 = []
+        li2 = []
 
-    li2=[]
-    for ib in issuedbook:
-        books=models.Book.objects.filter(isbn=ib.isbn)
-        for book in books:
-            t=(request.user,student[0].enrollment,student[0].branch,book.name,book.author)
-            li1.append(t)
-        issdate=str(ib.issuedate.day)+'-'+str(ib.issuedate.month)+'-'+str(ib.issuedate.year)
-        expdate=str(ib.expirydate.day)+'-'+str(ib.expirydate.month)+'-'+str(ib.expirydate.year)
-        #fine calculation
-        days=(date.today()-ib.issuedate)
-        print(date.today())
-        d=days.days
-        fine=0
-        if d>15:
-            day=d-15
-            fine=day*10
-        t=(issdate,expdate,fine)
-        li2.append(t)
+        for issued_book in issued_books:
+            books = models.Book.objects.filter(isbn=issued_book.isbn)
+            for book in books:
+                t = (request.user, student.enrollment, student.branch, book.name, book.author)
+                li1.append(t)
+            issdate = f"{issued_book.issuedate.day}-{issued_book.issuedate.month}-{issued_book.issuedate.year}"
+            expdate = f"{issued_book.expirydate.day}-{issued_book.expirydate.month}-{issued_book.expirydate.year}"
 
-    return render(request,'librarySystem/viewissuedbookbystudent.html',{'li1':li1,'li2':li2})
+            # Fine calculation
+            days = (date.today() - issued_book.issuedate).days
+            fine = max(0, (days - 15) * 10) if days > 15 else 0
+
+            t = (issdate, expdate, fine)
+            li2.append(t)
+    else:
+        # If the student doesn't exist, set the lists to empty
+        li1 = []
+        li2 = []
+
+    return render(request, 'librarySystem/viewissuedbookbystudent.html', {'li1': li1, 'li2': li2})
 
 def aboutus_view(request):
     return render(request,'librarySystem/aboutus.html')
@@ -193,9 +199,10 @@ def contactus_view(request):
     if request.method == 'POST':
         sub = forms.ContactusForm(request.POST)
         if sub.is_valid():
-            email = sub.cleaned_data['Email']
-            name=sub.cleaned_data['Name']
-            message = sub.cleaned_data['Message']
+             email = sub.cleaned_data['Email']
+             name=sub.cleaned_data['Name']
+             message = sub.cleaned_data['Message']
+             send_mail(str(name)+' || '+str(email),message, EMAIL_HOST_USER, ['tesfayegebrehiwot123@gmail.com'], fail_silently = False)
            
-            return render(request, 'librarySystem/contactussuccess.html')
+        return render(request, 'librarySystem/contactussuccess.html')
     return render(request, 'librarySystem/contactus.html', {'form':sub})
