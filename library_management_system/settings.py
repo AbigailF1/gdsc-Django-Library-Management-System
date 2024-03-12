@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'librarySystem.apps.LibrarysystemConfig'
+    'User.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +51,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'library_management_system.urls'
-AUTH_USER_MODEL ='librarySystem.User'
+# AUTH_USER_MODEL ='User.User'
+SESSION_ENGINE = 'django.contrib.sessions.backend.db'
 
 TEMPLATES = [
     {
