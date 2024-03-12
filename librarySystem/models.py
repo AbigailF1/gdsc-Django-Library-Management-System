@@ -49,7 +49,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_student = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = True)
     is_student = models.BooleanField(default = True)
-    # is_Superuser = models.BooleanField(default= False)
     username = models.CharField(max_length=100, unique=True)
 
     objects = CustomUserManager()
@@ -62,19 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Users'
     
 
-# class Users(models.Model):
-    # user_id = models.AutoField(primary_key=True)
-    
-#     password = models.CharField(max_length=100)
-#     email = models.EmailField()
-    
-#     role = models.CharField(max_length=100)
-#     date_joined = models.DateTimeField(auto_now_add=True)
-#     def __str__(self):
-#         return self.username
     
 class Genre(models.Model):
-    # id = models.AutoField()
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -82,7 +70,6 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
-    # book_id = models.AutoField()
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, default=None)
@@ -104,7 +91,6 @@ class BorrowedBook(models.Model):
         return f"{self.student} -> {self.book}"
 
 class Review(models.Model):
-    # review_id = models.AutoField()
     review_text = models.TextField()
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     student = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -112,4 +98,4 @@ class Review(models.Model):
     date = models.DateTimeField()
 
     def __str__(self):
-        return f"{self.student} -> rating {self.rating}/10"
+        return f"{self.student.username} -> rating {self.rating}/10"
