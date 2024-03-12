@@ -13,6 +13,8 @@ class User(models.Model):
     is_banned = models.BooleanField()
     def __str__(self):
         return self.username
+    class Meta:
+        ordering = ['username']
 
 class Book(models.Model):
     book_id = models.AutoField(primary_key=True)
@@ -23,8 +25,11 @@ class Book(models.Model):
     currently_available_copies = models.IntegerField()
     average_rating = models.DecimalField(max_digits=5, decimal_places=2)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
+
+    class Meta:
+        ordering = ['title']
 
 class BorrowedBook(models.Model):
     borrowed_id = models.AutoField(primary_key=True)
@@ -32,7 +37,7 @@ class BorrowedBook(models.Model):
     student = models.ForeignKey('User', on_delete=models.CASCADE)
     borrowed_date = models.DateTimeField()
     returned_date = models.DateTimeField(null=True, blank=True)
-
+    
     def __str__(self):
         return f"{self.student} -> {self.book}"
 
@@ -43,14 +48,13 @@ class Review(models.Model):
     student = models.ForeignKey('User', on_delete=models.CASCADE)
     book = models.ForeignKey('Book', on_delete=models.CASCADE)
     date = models.DateTimeField()
-
-    def __str__(self):
-        return f"{self.student} -> rating {self.rating}/10"
     
+    def __str__(self):
+        return f"{self.student} -> rating{self.rating}/10"
+
 class Genre(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
+    base_id = models.AutoField(primary_key=True)
+    author = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
-
+        return self.author
