@@ -116,7 +116,7 @@ def issuebook_view(request):
         if form.is_valid():
             obj=models.IssuedBook()
             obj.enrollment=request.POST.get('enrollment2')
-            obj.isbn=request.POST.get('isbn2')  # This line might be causing the issue
+            obj.book_isbn=request.POST.get('isbn2')    # This line might be causing the issue
             obj.save()
             return render(request,'librarySystem/bookissued.html')
     return render(request,'librarySystem/issuebook.html',{'form':form})
@@ -141,11 +141,11 @@ def viewissuedbook_view(request):
             fine=day*10
 
 
-        books=list(models.Book.objects.filter(isbn=ib.isbn))
+        books=list(models.Book.objects.filter(book_isbn=ib.book_isbn))
         students=list(models.StudentExtra.objects.filter(enrollment=ib.enrollment))
         i=0
-        for l in books:
-            t=(students[i].get_name,students[i].enrollment,books[i].name,books[i].author,issdate,expdate,fine)
+        for i in books:
+            t=(students[i].get_name,students[i].enrollment,books[i].book_name,books[i].book_author,issdate,expdate,fine)
             i=i+1
             li.append(t)
 

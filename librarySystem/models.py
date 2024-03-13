@@ -36,7 +36,7 @@ def get_expiry():
  
 class IssuedBook(models.Model):
     enrollment = models.CharField(max_length=30)
-    book_isbn=models.PositiveIntegerField(null=True)
+    book_isbn=models.CharField(max_length=30, null=True)
     issuedate = models.DateField(auto_now=True)
     expirydate = models.DateField(default=get_expiry)
 
