@@ -18,7 +18,7 @@ class User(models.Model):
         return self.username
 
 class StudentExtra(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     enrollment = models.CharField(max_length=40)
     branch = models.CharField(max_length=40)
     #used in issue book

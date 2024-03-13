@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from . import forms,models
 from django.http import HttpResponseRedirect
@@ -51,25 +51,31 @@ def adminsignup_view(request):
 
 
 def studentsignup_view(request):
-    form1=forms.StudentUserForm()
-    form2=forms.StudentExtraForm()
-    mydict={'form1':form1,'form2':form2}
-    if request.method=='POST':
-        form1=forms.StudentUserForm(request.POST)
-        form2=forms.StudentExtraForm(request.POST)
+    form1 = forms.StudentUserForm()
+    form2 = forms.StudentExtraForm()
+    mydict = {'form1': form1, 'form2': form2}
+
+    if request.method == 'POST':
+        form1 = forms.StudentUserForm(request.POST)
+        form2 = forms.StudentExtraForm(request.POST)
+
         if form1.is_valid() and form2.is_valid():
-            user=form1.save()
+            user = form1.save(commit=False)
             user.set_password(user.password)
             user.save()
-            f2=form2.save(commit=False)
-            f2.user=user
-            user=f2.save()
 
-            my_student_group = Group.objects.get_or_create(name='STUDENT')
-            my_student_group[0].user_set.add(user)
+            f2 = form2.save(commit=False)
+            f2.user = user  # Assigning the User instance correctly.
+            f2.save()
 
-        return HttpResponseRedirect('studentlogin')
-    return render(request,'librarySystem/studentsignup.html',context=mydict)
+            # Assigning the user to the 'STUDENT' group
+            my_student_group, _ = Group.objects.get_or_create(name='STUDENT')
+            my_student_group.user_set.add(user)
+
+            # Redirecting to the student login page upon successful signup
+            return redirect('studentlogin')
+
+    return render(request, 'librarySystem/studentsignup.html', context=mydict)
 
 
 
@@ -126,30 +132,30 @@ def issuebook_view(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def viewissuedbook_view(request):
-    issuedbooks=models.IssuedBook.objects.all()
-    li=[]
+    issuedbooks = models.IssuedBook.objects.all()
+    li = []
+    
     for ib in issuedbooks:
-        issdate=str(ib.issuedate.day)+'-'+str(ib.issuedate.month)+'-'+str(ib.issuedate.year)
-        expdate=str(ib.expirydate.day)+'-'+str(ib.expirydate.month)+'-'+str(ib.expirydate.year)
-        #fine calculation
-        days=(date.today()-ib.issuedate)
-        print(date.today())
-        d=days.days
-        fine=0
-        if d>15:
-            day=d-15
-            fine=day*10
+        issdate = str(ib.issuedate.day) + '-' + str(ib.issuedate.month) + '-' + str(ib.issuedate.year)
+        expdate = str(ib.expirydate.day) + '-' + str(ib.expirydate.month) + '-' + str(ib.expirydate.year)
+        
+        # Fine calculation
+        days = (date.today() - ib.issuedate)
+        d = days.days
+        fine = 0
+        if d > 15:
+            day = d - 15
+            fine = day * 10
 
+        books = list(models.Book.objects.filter(book_isbn=ib.book_isbn))
+        students = list(models.StudentExtra.objects.filter(enrollment=ib.enrollment))
 
-        books=list(models.Book.objects.filter(book_isbn=ib.book_isbn))
-        students=list(models.StudentExtra.objects.filter(enrollment=ib.enrollment))
-        i=0
-        for i in books:
-            t=(students[i].get_name,students[i].enrollment,books[i].book_name,books[i].book_author,issdate,expdate,fine)
-            i=i+1
+        # Iterate over pairs of books and students
+        for book, student in zip(books, students):
+            t = (student.get_name, student.enrollment, book.book_name, book.book_author, issdate, expdate, fine)
             li.append(t)
 
-    return render(request,'librarySystem/viewissuedbook.html',{'li':li})
+    return render(request, 'librarySystem/viewissuedbook.html', {'li': li})
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
