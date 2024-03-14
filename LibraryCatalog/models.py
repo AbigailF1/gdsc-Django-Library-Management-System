@@ -9,6 +9,10 @@ class Genre(models.Model):
     def __str__(self):
         return f'{self.name} - {self.number_of_books}'
 
+STATUS_CHOICE = (
+    ('avilable', 'AVILABLE'),
+    ('borrowed', "BORROWED")
+)
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
@@ -16,7 +20,9 @@ class Book(models.Model):
     number_of_copies = models.IntegerField(default=0)  # Default value added
     currently_available_copies = models.PositiveIntegerField(default=0)  # Default value added
     average_rating = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)  # Default value added
-
+    isbn_id = models.IntegerField(default=0000)
+    status = models.CharField(max_length=20, choices= STATUS_CHOICE, default='avilable')
+    
     def __str__(self):
         return self.title
 
