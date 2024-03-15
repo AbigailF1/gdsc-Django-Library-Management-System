@@ -107,16 +107,15 @@
       </h3>
     </center>
     <div class="signup-form">
-      <form method="post" class="form-horizontal">
-        <center><h2>Student Login</h2></center>
-
-        {% csrf_token %} {% for field in form %}
-        <div class="form-group">
-          <label class="control-label col-xs-4">{{ field.label_tag }}</label>
-          <div class="col-xs-8">{{ field }}</div>
-        </div>
-        {% endfor %}
-
+      {% if error_message %}
+      <p style="color: red">{{ error_message }}</p>
+      {% endif %}
+      <form method="POST" class="form-horizontal">
+        {% csrf_token %}
+        <center>
+          <h2>Student Login</h2>
+        </center>
+        {{ form }}
         <div class="form-group">
           <div class="col-xs-8 col-xs-offset-4">
             <center>

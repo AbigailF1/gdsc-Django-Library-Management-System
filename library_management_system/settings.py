@@ -44,9 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'User.apps.UserConfig',
     'Borrowing.apps.BorrowingConfig',
-    'LibraryCatalog.apps.LibraryCatalogConfig'
+    'LibraryCatalog.apps.LibraryCatalogConfig',
+    # 'crispy_forms'
     
 ]
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Or 'bootstrap', 'bootstrap3', etc. depending on your preference
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
