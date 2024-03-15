@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
@@ -7,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
+    <title>Admin</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,31 +19,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <title>Library management</title>
+    <style media="screen">
+      .jumbotron {
+        margin-bottom: 0px;
+      }
+      .jumbotron h1 {
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     {% include "librarySystem/navbar.html" %}
     <br /><br />
+    <div class="jumbotron">
+      <h1 class="display-4">Hello, Admin</h1>
+      <p class="lead">Welcome to Online Library Management System.</p>
+      <hr class="my-4" />
+      <p>You can access various features after Login/SignUp.</p>
+      <p class="lead">
+        <a
+          class="btn btn-primary btn-lg"
+          href="../Admin/adminsignup.html"
+          role="button"
+          >SignUp</a
+        >
+        <a
+          class="btn btn-primary btn-lg"
+          href="../Admin/adminlogin.html"
+          role="button"
+          >Login</a
+        >
+      </p>
+    </div>
 
-    <center>
-      <h3 class="alert alert-success">Send Us Your Valuable Feedback !</h3>
-
-      <form method="POST">
-        <!-- Very Important csrf Token -->
-        {% csrf_token %}
-        <div class="form-group">
-          <p>{{ form.as_p }}</p>
-          {% if error_message %}
-          <p style="color: red">{{ error_message }}</p>
-          {% endif %}
-          <input
-            type="submit"
-            value="Send Message"
-            class="btn btn-primary btn-lg"
-          />
-        </div>
-      </form>
-    </center>
     {% include "librarySystem/footer.html" %}
   </body>
 </html>

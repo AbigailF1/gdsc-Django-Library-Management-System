@@ -17,10 +17,12 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <style type="text/css">
       body {
         color: #aa082e;
-        background: #c5acb0;
+        background-color: #b6bde7;
         font-family: "Roboto", sans-serif;
       }
       .form-control {
@@ -80,6 +82,7 @@
       }
       .signup-form a {
         color: #2b04ff;
+
         text-decoration: underline;
       }
       .signup-form a:hover {
@@ -94,34 +97,42 @@
       }
     </style>
   </head>
-  <body style="background-color: #b6bde7">
-    {% include "librarySystem/navbaradmin.html" %}
+  <body>
+    {% include "librarySystem/navbar.html" %}
     <br />
     <br />
     <center>
       <h3 style="margin-bottom: 0px" class="alert alert-success">
-        ISSUE BOOK TO STUDENT !
+        Login As Student!
       </h3>
     </center>
     <div class="signup-form">
       <form method="post" class="form-horizontal">
-        <center><h2>ISSUE BOOK TO STUDENT</h2></center>
+        <center><h2>Student Login</h2></center>
+
         {% csrf_token %} {% for field in form %}
         <div class="form-group">
           <label class="control-label col-xs-4">{{ field.label_tag }}</label>
           <div class="col-xs-8">{{ field }}</div>
         </div>
         {% endfor %}
+
         <div class="form-group">
           <div class="col-xs-8 col-xs-offset-4">
-            <button type="submit" class="btn btn-primary btn-lg">ISSUE</button>
+            <center>
+              <button type="submit" class="btn btn-primary btn-lg">
+                Login
+              </button>
+            </center>
           </div>
         </div>
       </form>
       <div class="text-center">
-        View Issued Book to Student <a href="viewissuedbook">Click here</a>
+        Do not have account?
+        <a href="{%url 'student_register'%}">Signup here</a>
       </div>
     </div>
+
     {% include "librarySystem/footer.html" %}
   </body>
 </html>

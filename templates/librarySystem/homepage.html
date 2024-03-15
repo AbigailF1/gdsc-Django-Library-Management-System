@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      p {
+        line-height: 1.5;
+        margin-bottom: 15px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #eee;
+      }
+
+      .active {
+        background-color: #ddd;
+      }
+
+      #info-section {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+    </style>
+    <script>
+      function toggleInfo() {
+        const infoSection = document.getElementById("info-section");
+        infoSection.style.display =
+          infoSection.style.display === "none" ? "block" : "none";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Library Management System</h1>
+      <p>
+        This is a web-based system designed to manage the borrowing and
+        returning of library materials. It streamlines the process for both
+        librarians and students, making library resources more accessible and
+        efficient.
+      </p>
+      <div class="buttons">
+        <a href="../User/Admin/adminclick.html" class="button">Admin</a>
+        <a href="../User/Student/studentclick.html" class="button">Student</a>
+        <button class="button active" onclick="toggleInfo()">
+          About & Rules
+        </button>
+      </div>
+      <div id="info-section">
+        <h3>About the Library Management System</h3>
+        <p>
+          This system allows students to browse the library catalog, search for
+          specific materials, and reserve or borrow items. They can also track
+          their borrowing history and receive notifications about due dates.
+        </p>
+        <h3>Library Rules</h3>
+        <ul>
+          <li>Students can borrow a maximum of 5 items at a time.</li>
+          <li>
+            The loan period is typically 2 weeks, with the option to renew if no
+            one else has placed a hold on the item.
+          </li>
+          <li>Overdue fees will be applied to late returns.</li>
+          <li>Lost or damaged items must be reported to the library staff.</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
