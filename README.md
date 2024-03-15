@@ -15,10 +15,10 @@ also remove student from libraryCatalog/forms.py meta field<br>
 while I was testing my code I moved review and rating functionality to the libraryCatalogues app and left it there by mistake. <br>
 
 if you aleady pulled it just move <br>
-submit_review.html [ libraryCatalogue/templates -> borrowing/templates ] <br>
-ReviewForm class [ libraryCatalogue/forms.py -> borrowing/templates ] <br>
-submit_review function [ librarycatalogue/views.py -> borrowing/views.py ] <br>
-submit_review path [ librarycatalogue/urls.py  -> borrowing/urls.py   ] <br>
+submit_review.html <code> [ libraryCatalogue/templates -> borrowing/templates ] </code>  <br> 
+ReviewForm class <code> [ libraryCatalogue/forms.py -> borrowing/templates ] </code> <br>
+submit_review function <code> [ librarycatalogue/views.py -> borrowing/views.py ] </code> <br>
+submit_review path <code> [ librarycatalogue/urls.py  -> borrowing/urls.py   ] </code> <br>
 
 import them where needed and delete unused imports while you make the changes <br>
 
