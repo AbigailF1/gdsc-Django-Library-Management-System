@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Books</title>
+</head>
+<body>
+    <h1>All Books</h1>
+    <form action="{% url 'search_books' %}" method="GET">
+        <input type="text" name="query" placeholder="Search by title">
+        <input type="text" name="author" placeholder="Search by author">
+        <select name="genre">
+            <option value="">All Genres</option>
+            {% for genre in genres %}
+                <option value="{{ genre.name }}">{{ genre.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for book in books %}
+            <li>
+                <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Genre:</strong> {{ book.genre }}</p>
+                <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+                <p><strong>Currently Available Copies:</strong> {{ book.currently_available_copies }}</p>
+                <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+                
+<!--......................have to be visible only for admins..........................................................-->
+                <form action="{% url 'delete_book' book.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+<!--.......................have to be visible only for admins........................................................-->
+                
+
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <ul>
+        <li>
+                <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Genre:</strong> {{ book.genre }}</p>
+                <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+                <p><strong>Currently Available Copies:</strong> {{ book.currently_available_copies }}</p>
+                <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+        </li>
+        <li>
+            <h2>Reviews</h2>
+            {% for review in reviews %}
+            <div style="border:1px solid black; padding: 15px;">
+                <p>{{review.review_text}}</p>
+                <p>rating: {{review.rating}}</p>
+                <p>by: {{review.rating}}</p>
+                <p>date: {{ review.date|date:"F d, Y" }}</p>
+            </div>
+            {% endfor %}
+        </li>
+    </ul>
+    
+</body>
+</html>
