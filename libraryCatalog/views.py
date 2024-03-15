@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 # Create your views here.
 from .models import Book, Genre, Review
-from .forms import BookForm, GenreForm, ReviewForm
+from .forms import BookForm, GenreForm
 
 def book_create(request, pk=None):
     if pk:
@@ -87,17 +87,3 @@ def delete_book(request, pk):
     return render(request, 'book_confirm_delete.html', {'book': book})
 
 
-def submit_review(request, book_id):
-    book = Book.objects.get(pk=book_id)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.student = 'change_it'
-            #review.student = request.user.student
-            review.book = book
-            review.save()
-            return redirect('book_detail', pk=book_id)
-    else:
-        form = ReviewForm()
-    return render(request, 'submit_review.html', {'form': form,'book':book})

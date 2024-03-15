@@ -12,5 +12,4 @@ urlpatterns = [
     path('genre/', genre_list, name='genre_list'),
     path('genre/<int:pk>/delete/', delete_genre, name='delete_genre'),
     path('book/<int:pk>/delete/', delete_book, name='delete_book'),
-    path('book/<int:book_id>/submit_review/', submit_review, name='submit_review'),
 ]

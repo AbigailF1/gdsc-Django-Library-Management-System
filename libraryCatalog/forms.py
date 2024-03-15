@@ -11,7 +11,4 @@ class GenreForm(forms.ModelForm):
         model = Genre
         fields = ['name']
 
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['review_text', 'rating','student']
+
