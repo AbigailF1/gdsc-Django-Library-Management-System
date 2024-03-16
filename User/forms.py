@@ -11,7 +11,13 @@ class AdminSignupForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password', 'confirm_password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'confirm_password']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email address is already in use.")
+        return email
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
@@ -64,11 +70,14 @@ class StudentExtraForm(forms.ModelForm):
     class Meta:
         model=models.StudentExtra
         fields=['enrollment','branch']
-        
+
 class StudentLoginForm(forms.Form):
     username = forms.CharField(max_length=150, label='Username')
     password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
+class AdminLoginForm(forms.Form):
+    username = forms.CharField(max_length=150, label='Username')
+    password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
 class ContactusForm(forms.Form):
     Name = forms.CharField(max_length=30)

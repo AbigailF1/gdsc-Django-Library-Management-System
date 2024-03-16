@@ -11,9 +11,11 @@ from library_management_system.settings import EMAIL_HOST_USER
 from  django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.template.loader import render_to_string
 
-def is_admin(user):
-    return user.is_authenticated and user.is_admin
+
+def is_staff(user):
+    return user.is_authenticated and user.is_staff
 
 def is_authenticated(user):
     return user.is_authenticated
@@ -30,6 +32,12 @@ def adminclick_view(request):
     return render(request,'User/Admin/adminclick.html')
 def studentafterlogin_view(request):
     return render(request, 'User/Student/studentafterlogin.html')
+
+def adminafterlogin_view(request):
+    return render(request, 'User/Admin/adminafterlogin.html')
+
+def adminnotverified_view(request):
+    return render(request, 'User/Admin/adminnotverified.html')
 
 def studentsignup_view(request):
     form1 = forms.StudentUserForm()
@@ -69,32 +77,27 @@ def studentsignup_view(request):
 
     return render(request, 'User/Student/studentsignup.html', context=mydict)
 
-
-
 def adminsignup_view(request):
-    form = forms.AdminSigupForm()
-
     if request.method == 'POST':
-        form = forms.AdminSigupForm(request.POST)
+        form = forms.AdminSignupForm(request.POST) 
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
+            user = form.save(commit=False)  
+            user.set_password(user.password)
+            user.is_active = False  # Set user inactive until approved
+            # user.is_staff_requested = True  
             user.save()
 
-            # Assign user to 'ADMIN' group
-            # admin_group, created = Group.objects.get_or_create(name='ADMIN')
-            # user.groups.add(admin_group)
-
-            from django.core.mail import send_mail
-            send_mail(
-                'New Admin Signup Approval Needed',
-                f'Hi, a new admin with username {user.username} has signed up. Please approve their account.',
-                # {user.email},
-                ['bigidovi@gmail.com'],  # Superadmin's email
-                fail_silently=False,
+            # Send notification email to the host email
+            subject = 'New Admin Request: {}'.format(user.email)
+            message = render_to_string(
+                'User/Admin/admin_signup_email.html',
+                context={'user': user}
             )
-
-            return redirect('admin_login')
+            # send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.SUPERUSER_EMAIL])
+            return redirect('admin_not_verified')
+          
+    else:
+        form = forms.AdminSignupForm()
     return render(request, 'User/Admin/adminsignup.html', {'form': form})
 
 
@@ -122,10 +125,24 @@ def student_login_view(request):
 def studentLogout(request):
     return render(request, 'User/Student/studentlogout.html')
 
-def AdminLogin(request):
-    return render(request, 'User/Admin/adminlogin.html')
+def adminlogin_view(request):
+    if request.method == 'POST':
+        form = forms.AdminLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None and user.is_staff:
+                # login(request, user)
+                return redirect('admin_after_login')  
+            else:
+                # Invalid login
+                return render(request, 'User/Admin/adminlogin.html', {'form': form, 'error_message': 'Invalid credentials'})
+    else:
+        form = forms.AdminLoginForm()
+    return render(request, 'User/Admin/adminlogin.html', {'form': form})
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def navbaradmin_view(request):
     return render(request, 'librarySystem/navbaradmin.html')
 
