@@ -12,6 +12,7 @@ from  django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.template.loader import render_to_string
+from .models import AdminSignupRequest
 
 
 def is_staff(user):
@@ -86,14 +87,17 @@ def adminsignup_view(request):
             user.is_active = False  # Set user inactive until approved
             # user.is_staff_requested = True  
             user.save()
-
+            username = user.username
+            email = user.email
+            AdminSignupRequest.objects.create(username=username, email=email)
             # Send notification email to the host email
-            subject = 'New Admin Request: {}'.format(user.email)
-            message = render_to_string(
-                'User/Admin/admin_signup_email.html',
-                context={'user': user}
-            )
+            # subject = 'New Admin Request: {}'.format(user.email)
+            # message = render_to_string(
+            #     'User/Admin/admin_signup_email.html',
+            #     context={'user': user}
+            # )
             # send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.SUPERUSER_EMAIL])
+            
             return redirect('admin_not_verified')
           
     else:

@@ -26,3 +26,11 @@ class StudentExtra(models.Model):
     
 def get_expiry():
      return datetime.today() + timedelta(days=15)
+
+class AdminSignupRequest(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Admin Signup Request - {self.username}"
