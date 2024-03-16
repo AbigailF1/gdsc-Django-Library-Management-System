@@ -22,7 +22,7 @@ def is_authenticated(user):
     return user.is_authenticated
 
 def index_view(request):
-    return render(request,'librarySystem/index.html')
+    return render(request,'index.html')
 
 #for showing signup/login button for student
 def studentclick_view(request):
