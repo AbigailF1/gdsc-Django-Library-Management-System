@@ -107,24 +107,23 @@
       </h3>
     </center>
     <div class="signup-form">
-      <form method="post" class="form-horizontal">
+      {% if error_message %}
+      <p style="color: red">{{ error_message }}</p>
+      {% endif %}
+      <form method="POST" class="form-horizontal">
+        {% csrf_token %}
         <center><h2>Admin Login</h2></center>
+        <center>{{ form }}</center>
 
-        {% csrf_token %} {% for field in form %}
         <div class="form-group">
-          <label class="control-label col-xs-4">{{ field.label_tag }}</label>
-          <div class="col-xs-8">{{ field }}</div>
-        </div>
-        {% endfor %}
-        <center>
-          <div class="form-group">
-            <div class="col-xs-8 col-xs-offset-4">
+          <div class="col-xs-8 col-xs-offset-4">
+            <center>
               <button type="submit" class="btn btn-primary btn-lg">
                 Login
               </button>
-            </div>
+            </center>
           </div>
-        </center>
+        </div>
       </form>
       <div class="text-center">
         Do not have account? <a href="{%url 'admin_signup'%}">Signup here</a>
