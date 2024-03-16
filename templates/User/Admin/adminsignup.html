@@ -107,26 +107,29 @@
       </h3>
     </center>
     <div class="signup-form">
-      <form method="post" class="form-horizontal">
+      <form method="POST" class="form-horizontal">
         <center><h2>Admin Signup</h2></center>
 
         {% csrf_token %} {% for field in form %}
-        <div class="form-group">
-          <label class="control-label col-xs-4">{{ field.label_tag }}</label>
-          <div class="col-xs-8">{{ field }}</div>
-        </div>
-        {% endfor %}
-
-        <div class="form-group">
-          <div class="col-xs-8 col-xs-offset-4">
-            <button type="submit" class="btn btn-primary btn-lg">
-              Sign Up
-            </button>
+        <center>
+          <div class="form-group">
+            <label class="control-label col-xs-4">{{ field.label_tag }}</label>
+            <div class="col-xs-8">{{ field }}</div>
           </div>
-        </div>
+        </center>
+        {% endfor %}
+        <center>
+          <div class="form-group">
+            <div class="col-xs-8 col-xs-offset-4">
+              <button type="submit" class="btn btn-primary btn-lg">
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </center>
       </form>
       <div class="text-center">
-        Already have an account? <a href="{%url ' admin_login'%}">Login here</a>
+        Already have an account? <a href="{%url 'admin_login'%}">Login here</a>
       </div>
     </div>
 
