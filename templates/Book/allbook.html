@@ -57,7 +57,11 @@
       }
     </style>
   </head>
-  {% include "librarySystem/navbar.html" %}
+  {% include "librarySystem/navbaradmin.html" %}
+  <br />
+  <br />
+  <br />
+  <br />
   <body>
     <h1>All Books</h1>
     <form action="{% url 'search_books' %}" method="GET">
@@ -73,15 +77,17 @@
     </form>
     <ul>
       {% for book in books %}
+
       <li>
         <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
         <p><strong>Author:</strong> {{ book.author }}</p>
         <p><strong>Genre:</strong> {{ book.genre }}</p>
         <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
         <p>
-          <strong>Currently Available Copies:</strong> {{
-          book.currently_available_copies }}
+          <strong>Currently Available Copies:</strong>
+          <span>{{ book.currently_available_copies }}</span>
         </p>
+
         <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
 
         <!-- Only visible for admins -->
