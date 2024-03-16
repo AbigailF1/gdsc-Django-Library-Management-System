@@ -4,5 +4,10 @@ from . import models
 
 class BookForm(forms.ModelForm):
     class Meta:
-        model=models.Book
-        fields=['book_name','book_isbn','book_author','book_category']
+        model = models.Book
+        fields = ['title', 'author', 'genre', 'number_of_copies', 'currently_available_copies', 'average_rating']
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = models.Genre
+        fields = ['name', 'number_of_books']
