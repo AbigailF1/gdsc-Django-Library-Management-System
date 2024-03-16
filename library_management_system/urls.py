@@ -48,4 +48,7 @@ urlpatterns = [
     path('aboutus/', views.aboutus_view),
     path('contactus', views.contactus_view),
 
+    path('', include('LibraryCatalog.urls')),
+    path('', include('Borrowing.urls')),
+    path('', include('User.urls')),
 ]
