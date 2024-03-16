@@ -3,6 +3,7 @@ from .models import Book, Genre, Review
 from .forms import BookForm, GenreForm
 from django.contrib import messages
 
+
 def book_added_view(request):
     return render(request, 'Book/bookadded.html')
 
@@ -20,10 +21,9 @@ def add_book(request):
     return render(request, 'Book/addbook.html', {'form': form})
 
 
-
 def list_all_authors(request):
     authors = Book.objects.values_list('author', flat=True).distinct()
-    return render(request, 'all_authors.html', {'authors': authors})
+    return render(request, 'Book/all_authors.html', {'authors': authors})
 
 def search_books(request):
     query = request.GET.get('query')
@@ -36,14 +36,14 @@ def search_books(request):
         books = books.filter(author__icontains=author)
     if genre:
         books = books.filter(genre__name=genre)
-    return render(request, 'search_results.html', {'books': books, 'query': query, 'selected_genre': genre})
+    return render(request, 'Book/search_results.html', {'books': books, 'query': query, 'selected_genre': genre})
 
 def add_genre(request):
     if request.method == 'POST':
         form = GenreForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('genre_list')  # Redirect to a URL displaying the list of genres
+            return redirect('genre_list') 
     else:
         form = GenreForm()
     return render(request, 'add_genre.html', {'form': form})
@@ -86,3 +86,4 @@ def delete_book(request, pk):
         book.delete()
         return redirect('get_all_books')
     return render(request, 'book_confirm_delete.html', {'book': book})
+

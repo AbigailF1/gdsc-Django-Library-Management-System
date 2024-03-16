@@ -64,7 +64,7 @@ def studentsignup_view(request):
             # my_student_group.user_set.add(user)
 
             # Redirecting to the student login page upon successful signup
-            print("Redirecting to student_after_login page")
+            # print("Redirecting to student_after_login page")
             return redirect(reverse('student_after_login'))
         else:
             mydict['form1'] = form1
