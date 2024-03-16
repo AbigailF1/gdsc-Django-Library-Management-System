@@ -90,7 +90,8 @@
 
         <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
 
-        <!-- Only visible for admins -->
+        {% if user.is_authenticated and user.is_staff %}
+        <!-- Only visible to admins -->
         <form
           action="{% url 'delete_book' book.id %}"
           method="post"
@@ -99,7 +100,11 @@
           {% csrf_token %}
           <button type="submit">Delete</button>
         </form>
+        <a href="{% url 'book_update' book.id %}"
+          ><button type="button">Update Book</button></a
+        >
         <!-- End of admin-specific content -->
+        {% endif %}
       </li>
       {% endfor %}
     </ul>

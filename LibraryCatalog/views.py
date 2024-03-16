@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Book, Genre, Review
 from .forms import BookForm, GenreForm
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+
 
 
 def book_added_view(request):
