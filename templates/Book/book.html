@@ -1,49 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
 
-<body>
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
 
+      li {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 15px;
+        background-color: #fff;
+      }
+
+      h2 {
+        color: #007bff;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .review-info {
+        font-style: italic;
+        font-size: 0.9em;
+        color: #888;
+      }
+
+      .review-actions {
+        margin-top: 10px;
+      }
+
+      .review-actions button {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+
+      .review-actions button:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+
+  <body>
+    {%include "librarySystem/navbarstudent.html"%}
+    <br />
+    <br />
     <ul>
-        <li>
-            <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
-            <p><strong>Author:</strong> {{ book.author }}</p>
-            <p><strong>Genre:</strong> {{ book.genre }}</p>
-            <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
-            <p><strong>Currently Available Copies:</strong> {{ book.currently_available_copies }}</p>
-            <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
-        </li>
-        <li>
-            <h2>Reviews</h2>
-            {% for review in reviews %}
-            <div style="border:1px solid black; padding: 15px;">
-                <p>{{review.review_text}}</p>
-                <p>rating: {{review.rating}}</p>
-                <p>by: {{review.rating}}</p>
-                <p>date: {{ review.date|date:"F d, Y" }}</p>
-                <div>
-                    <!-- Only visible to users -->
-
-                    <form
-                    action="{% url 'delete_review' review.id %}"
-                    method="post"
-                    style="display: inline"
-                  >
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                  </form>
-                    <!-- End of admin-specific content -->
-                </div>
-            </div>
-            {% endfor %}
-        </li>
+      <li>
+        <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+        <p>
+          <strong>Currently Available Copies:</strong>
+          <span>{{ book.currently_available_copies }}</span>
+        </p>
+        <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+      </li>
+      <li>
+        <h2>Reviews</h2>
+        {% for review in reviews %}
+        <div class="review-item">
+          <p>{{review.review_text}}</p>
+          <p class="review-info">
+            Rating: {{review.rating}} | By: {{review.student.username}} | Date:
+            {{ review.date|date:"F d, Y" }}
+          </p>
+          <div class="review-actions">
+            <!-- Only visible to users -->
+            <form
+              action="{% url 'delete_review' review.id %}"
+              method="post"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit">Delete</button>
+            </form>
+            <!-- End of admin-specific content -->
+          </div>
+        </div>
+        {% endfor %}
+      </li>
     </ul>
-
-</body>
-
+  </body>
 </html>
