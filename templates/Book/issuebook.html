@@ -4,9 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Issue Book</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .hgt {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 50px; /* Space for footer */
+        min-height: 100vh;
+      }
+      .container {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        width: 50%;
+        max-width: 600px;
+      }
+      button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
   <body>
     {% include "librarySystem/navbarstudent.html" %}
+    <br />
+    <br />
+    <br />
     <div class="hgt">
       <h1>Issue Book</h1>
       {% if error_message %}
@@ -36,6 +75,6 @@
         <center><button type="submit">Issue Book</button></center>
       </form>
     </div>
-    {% include "librarySystem/footer.html" %}
+    <div class="footer">{% include "librarySystem/footer.html" %}</div>
   </body>
 </html>
