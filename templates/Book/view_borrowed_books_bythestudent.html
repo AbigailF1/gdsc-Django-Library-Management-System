@@ -89,6 +89,11 @@
               <button type="submit">Return</button>
             </form>
           </td>
+          <td>
+            <a href="{% url 'submit_review'  borrowed_book.book.id %}"
+              >Submit a Review</a
+            >
+          </td>
         </tr>
         {% endfor %}
       </tbody>

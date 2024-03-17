@@ -14,5 +14,7 @@ urlpatterns = [
     path('genre/', book_view.genre_list, name='genre_list'),
     path('genre/<int:pk>/delete/', book_view.delete_genre, name='delete_genre'),
     path('book/<int:pk>/delete/', book_view.delete_book, name='delete_book'),
+    path('book/<int:book_id>/book_review/', book_view.book_review, name='book_review'),
+    path('submit_review/<int:book_id>/', book_view.submit_review, name='submit_review')
    
 ]

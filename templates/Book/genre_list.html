@@ -1,23 +1,79 @@
 <!-- genre_list.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Genre List</title>
-</head>
-<body>
-    <h1>Genre List</h1>
-    <ul>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #c5acb0;
+        color: #aa082e;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        width: 50%;
+      }
+      li {
+        background-color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      li button {
+        background-color: #a40808;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      li button:hover {
+        background-color: #720505;
+      }
+      .hgt {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "librarySystem/navbaradmin.html" %}
+    <br /><br />
+    <br />
+    <br />
+    <br />
+    <div class="hgt">
+      <h1>Genre List</h1>
+      <ul>
         {% for genre in genres %}
-            <li>
-                {{ genre.name }}
-                <form action="{% url 'delete_genre' genre.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
+        <li>
+          {{ genre.name }}
+          <form
+            action="{% url 'delete_genre' genre.id %}"
+            method="post"
+            style="display: inline"
+          >
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+          </form>
+        </li>
         {% endfor %}
-    </ul>
-</body>
+      </ul>
+    </div>
+    {% include "librarySystem/footer.html" %}
+  </body>
 </html>
