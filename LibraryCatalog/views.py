@@ -66,6 +66,12 @@ def get_all_books(request):
 
     return render(request, 'Book/allbook.html', {'books':books, 'genres':genres})
 
+def get_all_books_students(request):
+    books=Book.objects.all()
+    genres = Genre.objects.all()
+
+    return render(request, 'Book/allbookstudents.html', {'books':books, 'genres':genres})
+
 def get_book_by_id(request, pk):
     book=get_object_or_404(Book, pk=pk)
     reviews = Review.objects.filter(book=book)

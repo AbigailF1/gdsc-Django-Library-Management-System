@@ -56,7 +56,7 @@
           >View issued book to you</a
         ><br /><br />
         <a
-          href="/templates/Book/viewissuedbookbystudent.html"
+          href="{%url 'get_all_books_students'%}"
           class="btn btn-primary btn-lg active"
           role="button"
           aria-pressed="true"
@@ -65,7 +65,7 @@
         ><br /><br />
       </div>
     </div>
-
-    {% include "librarySystem/footer.html" %}
+    <!-- <p>here it is : {{request.user}}</p> -->
+    {% include "librarySystem/footer.html"%}
   </body>
 </html>

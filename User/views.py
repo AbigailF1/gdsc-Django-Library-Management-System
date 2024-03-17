@@ -115,7 +115,7 @@ def student_login_view(request):
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                # login(request, user)
+                login(request, user)
                 return redirect(reverse('student_after_login'))
             else:
                 error_message = "Invalid username or password."
@@ -137,7 +137,7 @@ def adminlogin_view(request):
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None and user.is_staff:
-                # login(request, user)
+                login(request, user)
                 return redirect('admin_after_login')  
             else:
                 # Invalid login
