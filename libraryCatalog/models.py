@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import Avg
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 class Genre(models.Model):
@@ -39,11 +39,15 @@ class Book(models.Model):
 
 
 @receiver(post_save, sender=Book)
-def update_genre_number_of_books(sender, instance, created, **kwargs):
-    if created and instance.genre:
+def update_genre_book_count_on_create(sender, instance, created, **kwargs):
+    if created:
         instance.genre.number_of_books += 1
         instance.genre.save()
 
+@receiver(post_delete, sender=Book)
+def update_genre_book_count_on_delete(sender, instance, **kwargs):
+    instance.genre.number_of_books -= 1
+    instance.genre.save()
 
 class Review(models.Model):
     review_text = models.TextField()
