@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style media="screen">
+      body {
+        min-height: 100vh;
+      }
+      table.redTable {
+        border: 2px solid #a40808;
+        background-color: #eee7db;
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+        height: 100vh;
+      }
+      table.redTable td,
+      table.redTable th {
+        border: 1px solid #aaaaaa;
+        padding: 3px 2px;
+      }
+      table.redTable tbody td {
+        font-size: 13px;
+      }
+      table.redTable tr:nth-child(even) {
+        background: #f5c8bf;
+      }
+      table.redTable thead {
+        background: #a40808;
+      }
+      table.redTable thead th {
+        font-size: 19px;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: center;
+        border-left: 2px solid #a40808;
+      }
+      table.redTable thead th:first-child {
+        border-left: none;
+      }
+
+      table.redTable tfoot {
+        font-size: 13px;
+        font-weight: bold;
+        color: #ffffff;
+        background: #a40808;
+      }
+      table.redTable tfoot td {
+        font-size: 13px;
+      }
+      table.redTable tfoot .links {
+        text-align: right;
+      }
+      table.redTable tfoot .links a {
+        display: inline-block;
+        background: #ffffff;
+        color: #a40808;
+        padding: 2px 8px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "librarySystem/navbarstudent.html" %}
+    <br /><br />
+    <center><h1>Borrowed Books History</h1></center>
+    <table class="redTable">
+      <thead>
+        <tr>
+          <th>Book Title</th>
+          <th>Borrowed Date</th>
+          <th>Return Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for borrowed_book in borrowed_books %}
+        <tr>
+          <td>{{ borrowed_book.book.title }}</td>
+          <td>{{ borrowed_book.borrowed_date }}</td>
+          <td>{{ borrowed_book.return_date }}</td>
+          <td>
+            <form
+              action="{% url 'return_book' borrowed_book.id %}"
+              method="post"
+            >
+              {% csrf_token %}
+              <button type="submit">Return</button>
+            </form>
+          </td>
+          <td>
+            <a href="{% url 'submit_review'  borrowed_book.book.id %}"
+              >Submit a Review</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "librarySystem/footer.html" %}
+  </body>
+</html>

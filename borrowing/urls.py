@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import borrow_book, return_book, borrowed_books_list, submit_review
+from . import views as borrowedbook_views
 
 urlpatterns = [
-    path('borrow/<int:book_id>/', borrow_book, name='borrow_book'),
-    path('return/<int:borrowing_id>/', return_book, name='return_book'),
-    path('borrowed/', borrowed_books_list, name='borrowed_books_list'),
-    path('book/<int:book_id>/submit_review/', submit_review, name='submit_review'),
-
+    path('borrowedbooks/', borrowedbook_views.borrowed_books, name='borrowed_books'),
+    path('borrowedbooksbystudent/', borrowedbook_views.view_borrowed_books, name='borrowed_books_by_student'),
+    path('issuebook/<int:book_id>/', borrowedbook_views.issue_book, name='issue_book'),
+    path('all-borrowed-books/', borrowedbook_views.all_borrowed_books, name='all_borrowed_books'),
+    path('return_book/<int:borrowed_book_id>/', borrowedbook_views.return_book, name='return_book')
+   
 ]
-

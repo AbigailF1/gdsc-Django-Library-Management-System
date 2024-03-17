@@ -1,18 +1,13 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import BorrowedBook
-from libraryCatalog import Review
 
-class BorrowBookForm(forms.ModelForm):
+
+class IssueBookForm(forms.Form):
     class Meta:
         model = BorrowedBook
-        fields = []  # No need to include any fields here
+        fields = ['book', 'return_date']  
 
-class ReturnBookForm(forms.ModelForm):
-    class Meta:
-        model = BorrowedBook
-        fields = []  # No need to include any fields here
-
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['review_text', 'rating','student']
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            

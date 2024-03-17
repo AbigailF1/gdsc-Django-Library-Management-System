@@ -1,14 +1,22 @@
 from django import forms
-from .models import Book, Genre, Review
+from django.contrib.auth.models import User
+from . import models
+from .models import Review
+
+
 
 class BookForm(forms.ModelForm):
     class Meta:
-        model = Book
+        model = models.Book
         fields = ['title', 'author', 'genre', 'number_of_copies', 'currently_available_copies', 'average_rating']
 
 class GenreForm(forms.ModelForm):
     class Meta:
-        model = Genre
-        fields = ['name']
+        model = models.Genre
+        fields = ['name', 'number_of_books']
 
 
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'review_text']

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        text-align: center;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+      h2 {
+        margin-top: 0;
+      }
+      button {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Search Results</h1>
+    <ul>
+      {% for book in books %}
+      <li>
+        <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+        <p>
+          <strong>Currently Available Copies:</strong
+          ><span> {{ book.currently_available_copies }} </span>
+        </p>
+        <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+        <button onclick="issueBook('{{ book.id }}')">Issue Book</button>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

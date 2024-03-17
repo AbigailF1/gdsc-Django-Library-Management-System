@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Books</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+      }
+      form {
+        margin: 20px auto;
+        text-align: center;
+      }
+      input[type="text"],
+      select,
+      button {
+        margin: 5px;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        width: 200px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px auto;
+        width: 80%;
+      }
+      li {
+        background-color: #ffffff;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 10px;
+      }
+      li h2 {
+        margin-bottom: 5px;
+        color: #007bff;
+      }
+      p {
+        margin: 5px 0;
+      }
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  {% include "librarySystem/navbarstudent.html" %}
+  <br />
+  <br />
+  <br />
+  <br />
+  <body>
+    <h1>All Books</h1>
+    <form action="{% url 'search_books' %}" method="GET">
+      <input type="text" name="query" placeholder="Search by title" />
+      <input type="text" name="author" placeholder="Search by author" />
+      <select name="genre">
+        <option value="">All Genres</option>
+        {% for genre in genres %}
+        <option value="{{ genre.name }}">{{ genre.name }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Search</button>
+    </form>
+    <ul>
+      {% for book in books %}
+
+      <li>
+        <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+        <p>
+          <strong>Currently Available Copies:</strong>
+          <span>{{ book.currently_available_copies }}</span>
+        </p>
+
+        <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+        <a href="{% url 'issue_book' book.id %}" class="btn btn-primary"
+          >Issue Book</a
+        >
+        <!-- <p>book id {{request.user}}</p> -->
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

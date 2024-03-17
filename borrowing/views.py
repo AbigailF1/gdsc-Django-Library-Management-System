@@ -1,53 +1,59 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import BorrowedBook
-from django.utils import timezone
+from .forms import IssueBookForm
+from LibraryCatalog.models import Book
+from datetime import datetime, timedelta
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import F
 
-from libraryCatalog.models import Book
-from .forms import ReviewForm
 
-# Create your views here.
+def borrowed_books(request):
+    user = request.user
+    borrowed_books = BorrowedBook.objects.filter(student=user)
+    return render(request, 'Book/borrowedbook.html', {'borrowed_books': borrowed_books})
 
-def borrow_book(request, book_id):
-    book = Book.objects.get(pk=book_id)
-    if request.method == 'POST':
-        # Check if the user already borrowed 3 books
-        if request.user.borrowing_set.count() >= 3:
-            return render(request, 'borrow_limit_exceeded.html')
-        # Check if the book is available
-        if book.status == 'available':
-            borrowing = BorrowedBook(user=request.user, book=book)
-            borrowing.save()
-            book.status = 'borrowed'
-            book.save()
-            return redirect('book_detail', pk=book_id)
+def all_borrowed_books(request):
+    all_borrowed_books = BorrowedBook.objects.all()
+    return render(request, 'Book/all_borrowed_books.html', {'borrowed_books': all_borrowed_books})
+
+def return_book(request, borrowed_book_id):
+    borrowed_book = BorrowedBook.objects.get(pk=borrowed_book_id)
+    book = borrowed_book.book
+    
+    Book.objects.filter(pk=book.pk).update(currently_available_copies=F('currently_available_copies') + 1)
+    
+    borrowed_book.delete()
+    
+    return redirect('borrowed_books_by_student')
+
+@login_required
+def view_borrowed_books(request):
+    user = request.user
+    borrowed_books = BorrowedBook.objects.filter(student=user)
+    return render(request, 'Book/view_borrowed_books_bythestudent.html', {'borrowed_books': borrowed_books})
+
+
+@login_required
+def issue_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    return_date = None
+    student = request.user
+    if request.method == 'POST':        
+        if student.is_authenticated and student.is_active:
+            if student.borrowedbook_set.count() < 3:
+                if book.currently_available_copies > 0:
+                    borrowed_book  = BorrowedBook.objects.create(book=book, student=student)
+                    return_date = borrowed_book.borrowed_date + timedelta(days=15)
+                    book.currently_available_copies -= 1
+                    book.save()
+                    return render(request, 'Book/issuebook.html', {'success_message': 'Book issued successfully', 'book': book, 'return_date': return_date})
+                else:
+                    return render(request, 'Book/issuebook.html', {'error_message': 'No copies available', 'book': book, 'return_date': return_date})
+            else:
+                return render(request, 'Book/issuebook.html', {'error_message': 'You have already borrowed three books', 'book': book, 'return_date': return_date})
         else:
-            return render(request, 'book_not_available.html')
-    return render(request, 'borrow_confirm.html', {'book': book})
-
-def return_book(request, borrowing_id):
-    borrowing = BorrowedBook.objects.get(pk=borrowing_id)
-    if request.user == borrowing.user:
-        borrowing.return_date = timezone.now().date()
-        borrowing.book.status = 'available'
-        borrowing.book.save()
-        borrowing.save()
-    return redirect('borrowed_books_list')
-
-def borrowed_books_list(request):
-    borrowings = BorrowedBook.objects.filter(user=request.user)
-    return render(request, 'borrowed_books_list.html', {'borrowings': borrowings})
-
-def submit_review(request, book_id):
-    book = Book.objects.get(pk=book_id)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.student = 'change_it'
-            #review.student = request.user.student
-            review.book = book
-            review.save()
-            return redirect('book_detail', pk=book_id)
+            return render(request, 'Book/issuebook.html', {'error_message': 'You must be logged in and active to borrow a book', 'book': book , 'return_date': return_date})
     else:
-        form = ReviewForm()
-    return render(request, 'submit_review.html', {'form': form,'book':book})
+        return render(request, 'Book/issuebook.html', {'book': book, 'return_date': return_date})

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Library management</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+      body {
+        color: #aa082e;
+        background-color: #b6bde7;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .signup-form {
+        width: 500px;
+        margin: auto;
+        padding: 30px 0;
+      }
+      .signup-form h2 {
+        color: #333;
+        margin: 0 0 30px 0;
+        display: inline-block;
+        padding: 0 30px 10px 0;
+        border-bottom: 3px solid #ffffff;
+      }
+      .signup-form p {
+        margin-bottom: 20px;
+      }
+      .signup-form a {
+        color: #2b04ff;
+        text-decoration: underline;
+      }
+      .signup-form a:hover {
+        text-decoration: none;
+      }
+      .signup-form button {
+        font-size: 16px;
+        font-weight: bold;
+        background: #161df0;
+        border: none;
+        margin-top: 20px;
+        min-width: 140px;
+      }
+      .signup-form button:hover,
+      .signup-form button:focus {
+        background: #41cba9;
+        outline: none !important;
+      }
+      footer {
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "librarySystem/navbar.html" %}
+    <br />
+    <br />
+    <div class="signup-form">
+      <center>
+        <h3 style="margin-bottom: 0px" class="alert alert-success">
+          Logout Successful!
+        </h3>
+        <p>Thank you for using our system.</p>
+        <a href="{%url 'student_login' %}">
+          <button type="button" class="btn btn-primary btn-lg">
+            Login Again
+          </button>
+        </a>
+      </center>
+    </div>
+
+    {% include "librarySystem/footer.html" %}
+  </body>
+</html>

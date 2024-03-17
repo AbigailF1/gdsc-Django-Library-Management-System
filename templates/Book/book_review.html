@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Book Review</title>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 24px;
+      }
+
+      .author,
+      .description,
+      .average-rating {
+        margin-bottom: 10px;
+      }
+
+      .review-list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .review-item {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+
+      .rating {
+        font-weight: bold;
+      }
+
+      .review-text {
+        margin-top: 5px;
+      }
+
+      .review-by {
+        font-style: italic;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "librarySystem/navbarstudent.html" %}
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="container">
+      <h1>{{ book.title }}</h1>
+      <p class="author">Author: {{ book.author }}</p>
+      <p class="description">Description: {{ book.description }}</p>
+      <p class="average-rating">
+        Average Rating: {{ average_rating|default:"No reviews yet" }}
+      </p>
+
+      <h2>Reviews</h2>
+      <ul class="review-list">
+        {% for review in reviews %}
+        <li class="review-item">
+          <p class="rating">Rating: {{ review.rating }}</p>
+          <p class="review-text">{{ review.review_text }}</p>
+          <p class="review-by">By: {{ review.student.username }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

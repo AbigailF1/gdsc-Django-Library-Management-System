@@ -11,16 +11,22 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3a9+bi8ty*=(8)bm-c(%_#voy=mx%k(1(vvb!kmzqxggw-d-qu'
+SECRET_KEY = 'django-insecure-m#8ux@gmsdw$0wbnc9hv%-mma6d3g=h5x8(kv)u43xvdb3g3^*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,27 +43,34 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'borrowing',
-    'userManager',
-    'libraryCatalog'
+    'User.apps.UserConfig',
+    'Borrowing.apps.BorrowingConfig',
+    'LibraryCatalog.apps.LibraryCatalogConfig',
+    # 'crispy_forms'
+    
 ]
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Or 'bootstrap', 'bootstrap3', etc. depending on your preference
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'library_management_system.urls'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +83,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'library_management_system.wsgi.application'
+# WSGI_APPLICATION = 'library_management_system.wsgi.application'
 
 
 # Database
@@ -79,7 +92,7 @@ WSGI_APPLICATION = 'library_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -118,7 +131,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS=[
+STATIC_DIR,
+ ]
+
+LOGIN_REDIRECT_URL='/afterlogin'
+
+SUPERUSER_EMAIL = 'abigailfh19@gmail.com'
+EMAIL_APP_PASSWORD = 'uwox eheu rsmk bamv'
+
+#for email
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'bigidovi@gmail.com'
+EMAIL_HOST_PASSWORD = EMAIL_APP_PASSWORD = 'uwox eheu rsmk bamv'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
