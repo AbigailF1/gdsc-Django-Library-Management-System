@@ -63,12 +63,13 @@
           aria-pressed="true"
           >View Available Books</a
         ><br /><br />
+
         <a
-          href="{%url 'borrowed_books'%}"
+          href="{% url 'all_borrowed_books' %}"
           class="btn btn-primary btn-lg active"
           role="button"
           aria-pressed="true"
-          >View Issued Book</a
+          >View Issued Books</a
         ><br /><br />
         <a
           href="viewstudent"

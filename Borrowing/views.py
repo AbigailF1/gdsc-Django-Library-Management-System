@@ -12,6 +12,17 @@ def borrowed_books(request):
     borrowed_books = BorrowedBook.objects.filter(student=user)
     return render(request, 'Book/borrowedbook.html', {'borrowed_books': borrowed_books})
 
+def all_borrowed_books(request):
+    all_borrowed_books = BorrowedBook.objects.all()
+    return render(request, 'Book/all_borrowed_books.html', {'borrowed_books': all_borrowed_books})
+
+def return_book(request, borrowed_book_id):
+    borrowed_book = BorrowedBook.objects.get(pk=borrowed_book_id)
+    book = borrowed_book.book
+    borrowed_book.delete()
+    book.currently_available_copies += 1
+    book.save()
+    return redirect('borrowed_books_by_student')
 
 @login_required
 def view_borrowed_books(request):
