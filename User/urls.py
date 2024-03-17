@@ -19,5 +19,6 @@ urlpatterns = [
    path('StudentNavbar/', user_view.navbarstudent_view, name= 'student_navbar'),
    path('contactus/', user_view.contactus_view, name= 'contactus_page'),
    path('aboutus/', user_view.aboutus_view, name= 'aboutus_page'),
+   path('students/', user_view.student_list, name='student_list'),
   
 ]

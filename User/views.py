@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.template.loader import render_to_string
 from .models import AdminSignupRequest
-
+from django.contrib.auth.models import User
 
 def is_staff(user):
     return user.is_authenticated and user.is_staff
@@ -154,6 +154,9 @@ def navbaradmin_view(request):
 def navbarstudent_view(request):
     return render(request, 'librarySystem/navbarstudent.html')
 
+def student_list(request):
+    students = User.objects.filter(is_active=True, is_staff=False)
+    return render(request, 'User/Student/viewstudent.html', {'students': students})
 
 def aboutus_view(request):
     return render(request,'librarySystem/aboutus.html')

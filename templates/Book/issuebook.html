@@ -4,82 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Issue Book</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f9fa;
-        color: #343a40;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh; /* Set minimum height to full viewport height */
-      }
-      h1 {
-        text-align: center;
-        margin-top: 20px;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        flex: 1; /* Grow to fill remaining space */
-        margin-bottom: 20px; /* Add some space at the bottom */
-      }
-      .container h2 {
-        color: #007bff;
-        margin-bottom: 10px;
-      }
-      .container p {
-        margin: 5px 0;
-      }
-      .container button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      .container button:hover {
-        background-color: #0056b3;
-      }
-      .container form {
-        text-align: center;
-      }
-    </style>
   </head>
   <body>
     {% include "librarySystem/navbarstudent.html" %}
-    <h1>Issue Book</h1>
-    {% if error_message %}
-    <p style="color: red">{{ error_message }}</p>
-    {% endif %} {% if success_message %}
-    <p style="color: green">{{ success_message }}</p>
-    {% endif %}
-    <div class="container">
-      <center><h2>{{ book.title }}</h2></center>
-      <p><strong>Author:</strong> {{ book.author }}</p>
-      <p><strong>Genre:</strong> {{ book.genre }}</p>
-      <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
-      <p>
-        <strong>Currently Available Copies:</strong>
-        <span> {{ book.currently_available_copies }} </span>
-      </p>
-      <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
-      <p><strong>Return Date:</strong> {{ return_date }}</p>
+    <div class="hgt">
+      <h1>Issue Book</h1>
+      {% if error_message %}
+      <p style="color: red">{{ error_message }}</p>
+      {% endif %} {% if success_message %}
+      <p style="color: green">{{ success_message }}</p>
+      {% endif %}
+      <div class="container">
+        <center><h2>{{ book.title }}</h2></center>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Number of Copies:</strong> {{ book.number_of_copies }}</p>
+        <p>
+          <strong>Currently Available Copies:</strong>
+          <span> {{ book.currently_available_copies }} </span>
+        </p>
+        <p><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+        <p><strong>Return Date:</strong> {{ return_date }}</p>
+      </div>
+      <form
+        class="container"
+        action="{% url 'issue_book' book.id %}"
+        method="POST"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{ book.id }}" />
+        <center><button type="submit">Issue Book</button></center>
+      </form>
     </div>
-    <form
-      class="container"
-      action="{% url 'issue_book' book.id %}"
-      method="POST"
-    >
-      {% csrf_token %}
-      <input type="hidden" name="book_id" value="{{ book.id }}" />
-      <center><button type="submit">Issue Book</button></center>
-    </form>
     {% include "librarySystem/footer.html" %}
   </body>
 </html>

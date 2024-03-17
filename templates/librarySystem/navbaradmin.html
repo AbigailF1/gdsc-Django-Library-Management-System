@@ -69,22 +69,6 @@
               </div>
             </div>
 
-            <!--for issuebook dropdown button-->
-            <div class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-                >Issue Book</a
-              >
-              <div class="dropdown-menu">
-                <a href="issuebook" class="dropdown-item">Borrow New Book</a>
-                <a href="viewissuedbook" class="dropdown-item"
-                  >Already borrowed Books</a
-                >
-              </div>
-            </div>
-
             <!--for student dropdown button-->
             <div class="nav-item dropdown">
               <a
@@ -94,13 +78,16 @@
                 >Student</a
               >
               <div class="dropdown-menu">
-                <a href="viewstudent" class="dropdown-item">View Student</a>
+                <a href="{%url 'student_list'%}" class="dropdown-item"
+                  >View Student</a
+                >
               </div>
             </div>
           </div>
 
           <div class="navbar-nav">
-            <a href="logout" class="nav-item nav-link">LOGOUT</a> &nbsp
+            <a href="{%url 'admin_login'%}" class="nav-item nav-link">LOGOUT</a>
+            &nbsp
             <a href="{%url 'aboutus_page'%}" class="nav-item nav-link"
               >About Us</a
             >
