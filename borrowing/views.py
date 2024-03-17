@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BorrowedBook
@@ -40,6 +41,11 @@ def issue_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     return_date = None
     student = request.user
+    borrowed = BorrowedBook.objects.filter(book=book, student=student).exists()
+
+    if borrowed:
+        return render(request, 'Book/issuebook.html', {'success_message': 'already borrowed', 'book': book, 'return_date': return_date})
+
     if request.method == 'POST':        
         if student.is_authenticated and student.is_active:
             if student.borrowedbook_set.count() < 3:
