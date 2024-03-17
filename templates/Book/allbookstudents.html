@@ -92,6 +92,9 @@
         <a href="{% url 'issue_book' book.id %}" class="btn btn-primary"
           >Issue Book</a
         >
+        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary"
+          >Reviews</a
+        >
         <!-- <p>book id {{request.user}}</p> -->
       </li>
       {% endfor %}
